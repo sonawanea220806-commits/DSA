@@ -1,0 +1,92 @@
+#include <iostream>
+using namespace std;
+
+// Node for stack
+struct Node {
+    char data;
+    Node* next;
+};
+
+Node* top = NULL;
+
+// Push
+void push(char x) {
+    Node* temp = new Node();
+    temp->data = x;
+    temp->next = top;
+    top = temp;
+}
+
+// Pop
+char pop() {
+    if (top == NULL) return '\0';
+    char x = top->data;
+    Node* temp = top;
+    top = top->next;
+    delete temp;
+    return x;
+}
+
+// Peek
+char peek() {
+    if (top == NULL) return '\0';
+    return top->data;
+}
+
+// Priority
+int priority(char x) {
+    if (x == '+' || x == '-') return 1;
+    if (x == '*' || x == '/') return 2;
+    return 0;
+}
+
+int main() {
+    char infix[50], postfix[50];
+    int i = 0, j = 0;
+
+    cout << "Enter infix expression: ";
+    cin >> infix;
+
+    while (infix[i] != '\0') {
+        char ch = infix[i];
+
+        // Operand
+        if (isalnum(ch)) {
+            postfix[j++] = ch;
+        }
+
+        // Left bracket
+        else if (ch == '(') {
+            push(ch);
+        }
+
+        // Right bracket
+        else if (ch == ')') {
+            while (peek() != '(') {
+                postfix[j++] = pop();
+            }
+            pop(); // remove '('
+        }
+
+        // Operator
+        else {
+            while (priority(peek()) >= priority(ch)) {
+                postfix[j++] = pop();
+            }
+            push(ch);
+        }
+
+        i++;
+    }
+
+    // Pop remaining
+    while (top != NULL) {
+        postfix[j++] = pop();
+    }
+
+    postfix[j] = '\0';
+
+    cout << "Postfix expression: " << postfix;
+
+    return 0;
+}
