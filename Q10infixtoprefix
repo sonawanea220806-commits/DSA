@@ -1,0 +1,87 @@
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+char stack[50];
+int top = -1;
+
+// push
+void push(char x) {
+    stack[++top] = x;
+}
+
+// pop
+char pop() {
+    return stack[top--];
+}
+
+// priority
+int pr(char x) {
+    if (x == '+' || x == '-') return 1;
+    if (x == '*' || x == '/') return 2;
+    return 0;
+}
+
+// reverse
+void reverse(char str[]) {
+    int n = strlen(str);
+    for (int i = 0; i < n/2; i++) {
+        char t = str[i];
+        str[i] = str[n-i-1];
+        str[n-i-1] = t;
+    }
+
+    // change brackets
+    for (int i = 0; i < n; i++) {
+        if (str[i] == '(') str[i] = ')';
+        else if (str[i] == ')') str[i] = '(';
+    }
+}
+
+int main() {
+    char infix[50], prefix[50];
+    int i=0, j=0;
+
+    cout << "Enter infix: ";
+    cin >> infix;
+
+    // Step 1: reverse
+    reverse(infix);
+
+    // Step 2: postfix logic
+    while (infix[i] != '\0') {
+
+        if (isalnum(infix[i])) {
+            prefix[j++] = infix[i];
+        }
+        else if (infix[i] == '(') {
+            push('(');
+        }
+        else if (infix[i] == ')') {
+            while (stack[top] != '(') {
+                prefix[j++] = pop();
+            }
+            pop();
+        }
+        else {
+            while (top != -1 && pr(stack[top]) >= pr(infix[i])) {
+                prefix[j++] = pop();
+            }
+            push(infix[i]);
+        }
+        i++;
+    }
+
+    while (top != -1) {
+        prefix[j++] = pop();
+    }
+
+    prefix[j] = '\0';
+
+    // Step 3: reverse again
+    reverse(prefix);
+
+    cout << "Prefix: " << prefix;
+
+    return 0;
+}
