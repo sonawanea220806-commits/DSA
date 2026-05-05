@@ -1,0 +1,63 @@
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+using namespace std;
+
+struct S {
+    int id;
+    char name[30];
+    float cgpa;
+};
+
+// input one student
+void input(S* a, int i) {
+    cout << "Enter ID Name CGPA: ";
+    cin >> a[i].id >> a[i].name >> a[i].cgpa;
+}
+
+// display
+void display(S* a, int n) {
+    cout << "\nStudent Database:\n";
+    for (int i = 0; i < n; i++) {
+        cout << a[i].id << " " << a[i].name << " " << a[i].cgpa << endl;
+    }
+}
+
+// linear search
+void linear(S* a, int n, int key) {
+    for (int i = 0; i < n; i++) {
+        if (a[i].id == key) {
+            cout << "Found: " << a[i].name << " " << a[i].cgpa << endl;
+            return;
+        }
+    }
+    cout << "Not Found\n";
+}
+
+int main() {
+    int n, key;
+
+    cout << "Enter number of students: ";
+    cin >> n;
+
+    S* a = (S*) malloc(n * sizeof(S));
+
+    for (int i = 0; i < n; i++) {
+        input(a, i);
+    }
+
+    // add one more student using realloc
+    n++;
+    a = (S*) realloc(a, n * sizeof(S));
+
+    cout << "\nEnter new student:\n";
+    input(a, n - 1);
+
+    display(a, n);
+
+    cout << "\nEnter ID to search: ";
+    cin >> key;
+    linear(a, n, key);
+
+    free(a);
+}
