@@ -1,0 +1,101 @@
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+};
+
+Node* head = NULL;
+
+void insertBegin(int value) {
+    Node* newNode = new Node();
+    newNode->data = value;
+    newNode->next = head;
+    head = newNode;
+    cout << value << " inserted at beginning.\n";
+}
+
+void deleteBegin() {
+    if (head == NULL) {
+        cout << "List is empty.\n";
+        return;
+    }
+
+    Node* temp = head;
+    head = head->next;
+    cout << temp->data << " deleted from beginning.\n";
+    delete temp;
+}
+
+void display() {
+    if (head == NULL) {
+        cout << "List is empty.\n";
+        return;
+    }
+
+    Node* temp = head;
+    cout << "Linked List: ";
+    while (temp != NULL) {
+        cout << temp->data << " -> ";
+        temp = temp->next;
+    }
+    cout << "NULL\n";
+}
+
+void countNodes() {
+    int count = 0;
+    Node* temp = head;
+
+    while (temp != NULL) {
+        count++;
+        temp = temp->next;
+    }
+
+    cout << "Total nodes: " << count << endl;
+}
+
+int main() {
+    int choice, value;
+
+    do {
+        cout << "\n--- Singly Linked List Menu ---\n";
+        cout << "1. Insert At Begin\n";
+        cout << "2. Delete From Begin\n";
+        cout << "3. Display\n";
+        cout << "4. Count Nodes\n";
+        cout << "5. Exit\n";
+        cout << "Enter choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                cout << "Enter value: ";
+                cin >> value;
+                insertBegin(value);
+                break;
+
+            case 2:
+                deleteBegin();
+                break;
+
+            case 3:
+                display();
+                break;
+
+            case 4:
+                countNodes();
+                break;
+
+            case 5:
+                cout << "Program ended.\n";
+                break;
+
+            default:
+                cout << "Invalid choice.\n";
+        }
+
+    } while (choice != 5);
+
+    return 0;
+}
