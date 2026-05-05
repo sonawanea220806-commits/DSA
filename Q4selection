@@ -1,0 +1,50 @@
+#include <iostream>
+using namespace std;
+
+struct S {
+    int id;
+    string name;
+    float cgpa;
+};
+
+void input(S a[], int n) {
+    for (int i = 0; i < n; i++) {
+        cout << "Enter ID Name CGPA: ";
+        cin >> a[i].id >> a[i].name >> a[i].cgpa;
+    }
+}
+
+void selection(S a[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        int min = i;
+
+        for (int j = i + 1; j < n; j++) {
+            if (a[j].cgpa < a[min].cgpa)
+                min = j;
+        }
+
+        swap(a[i], a[min]);
+    }
+}
+
+void display(S a[], int n) {
+    cout << "\nSorted by CGPA:\n";
+    for (int i = 0; i < n; i++) {
+        cout << a[i].id << " " << a[i].name << " " << a[i].cgpa << endl;
+    }
+}
+
+int main() {
+    int n;
+
+    cout << "Enter number of students: ";
+    cin >> n;
+
+    S* a = new S[n];
+
+    input(a, n);
+    selection(a, n);
+    display(a, n);
+
+    delete[] a;
+}
