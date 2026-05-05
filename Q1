@@ -1,0 +1,83 @@
+#include <iostream>
+using namespace std;
+
+struct S {
+    int id;
+    string name;
+    float cgpa;
+};
+
+// input
+void input(S a[], int n) {
+    for (int i = 0; i < n; i++) {
+        cout << "Enter ID Name CGPA: ";
+        cin >> a[i].id >> a[i].name >> a[i].cgpa;
+    }
+}
+
+// linear search
+void linear(S a[], int n, int key) {
+    for (int i = 0; i < n; i++) {
+        if (a[i].id == key) {
+            cout << "Found (Linear): " << a[i].name << endl;
+            return;
+        }
+    }
+    cout << "Not Found\n";
+}
+
+// sort for binary search
+void sortID(S a[], int n) {
+    for (int i = 0; i < n; i++)
+        for (int j = i + 1; j < n; j++)
+            if (a[i].id > a[j].id)
+                swap(a[i], a[j]);
+}
+
+// binary search
+void binary(S a[], int n, int key) {
+    int l = 0, h = n - 1;
+
+    while (l <= h) {
+        int m = (l + h) / 2;
+
+        if (a[m].id == key) {
+            cout << "Found (Binary): " << a[m].name << endl;
+            return;
+        }
+        else if (key > a[m].id)
+            l = m + 1;
+        else
+            h = m - 1;
+    }
+
+    cout << "Not Found\n";
+}
+
+int main() {
+    int n, key;
+
+    cout << "Enter number of students: ";
+    cin >> n;
+
+    if (n <= 0) {
+        cout << "Invalid input\n";
+        return 0;
+    }
+
+    S* a = new S[n];
+
+    input(a, n);
+
+    cout << "Enter ID for Linear Search: ";
+    cin >> key;
+    linear(a, n, key);
+
+    sortID(a, n);
+
+    cout << "Enter ID for Binary Search: ";
+    cin >> key;
+    binary(a, n, key);
+
+    delete[] a;
+}
