@@ -1,0 +1,50 @@
+#include <iostream>
+using namespace std;
+
+struct S {
+    int id;
+    string name;
+    float cgpa;
+};
+
+// input
+void input(S a[], int n) {
+    for (int i = 0; i < n; i++) {
+        cout << "Enter ID Name CGPA: ";
+        cin >> a[i].id >> a[i].name >> a[i].cgpa;
+    }
+}
+
+// bubble sort by name
+void bubble(S a[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (a[j].name > a[j + 1].name) {
+                swap(a[j], a[j + 1]);
+            }
+        }
+    }
+}
+
+// display
+void display(S a[], int n) {
+    cout << "\nSorted Student Database:\n";
+    for (int i = 0; i < n; i++) {
+        cout << a[i].id << " " << a[i].name << " " << a[i].cgpa << endl;
+    }
+}
+
+int main() {
+    int n;
+
+    cout << "Enter number of students: ";
+    cin >> n;
+
+    S* a = new S[n];   // dynamic memory
+
+    input(a, n);
+    bubble(a, n);
+    display(a, n);
+
+    delete[] a;
+}
