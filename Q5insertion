@@ -1,0 +1,53 @@
+#include <iostream>
+using namespace std;
+
+struct S {
+    int id;
+    string name;
+    float cgpa;
+};
+
+// input
+void input(S a[], int n) {
+    for (int i = 0; i < n; i++) {
+        cout << "Enter ID Name CGPA: ";
+        cin >> a[i].id >> a[i].name >> a[i].cgpa;
+    }
+}
+
+// insertion sort (descending CGPA)
+void insertion(S a[], int n) {
+    for (int i = 1; i < n; i++) {
+        S key = a[i];
+        int j = i - 1;
+
+        while (j >= 0 && a[j].cgpa < key.cgpa) {
+            a[j + 1] = a[j];
+            j--;
+        }
+        a[j + 1] = key;
+    }
+}
+
+// display
+void display(S a[], int n) {
+    cout << "\nSorted by CGPA (Descending):\n";
+    for (int i = 0; i < n; i++) {
+        cout << a[i].id << " " << a[i].name << " " << a[i].cgpa << endl;
+    }
+}
+
+int main() {
+    int n;
+
+    cout << "Enter number of students: ";
+    cin >> n;
+
+    S* a = new S[n];
+
+    input(a, n);
+    insertion(a, n);
+    display(a, n);
+
+    delete[] a;
+}
